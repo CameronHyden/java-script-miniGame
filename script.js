@@ -13,9 +13,8 @@ let result = 0;
 let direction = 1;
 
 const rightEdge = [
-    14, 29, 44, 59, 74, 89, 104, 119, 134, 149, 
-    164, 179, 194, 209, 224,
-]
+  14, 29, 44, 59, 74, 89, 104, 119, 134, 149, 164, 179, 194, 209, 224,
+];
 
 //set starting position of the aliens
 const aliens = [
@@ -23,7 +22,7 @@ const aliens = [
   32, 33, 34, 35, 36, 37, 38, 39,
 ];
 
-//functions tp remove and add the alien styles
+//functions to remove and add the alien styles
 const addAlienClass = () => {
   for (let i = 0; i < aliens.length; i++) {
     divSquares[aliens[i]].classList.add("alienInvader");
@@ -55,21 +54,32 @@ const moveShooter = (event) => {
 };
 
 // moving the aliens
+// todo --- get the aliens moving side to side
 const moveAliens = () => {
   removeAlienClass();
 
   for (let i = 0; i < aliens.length; i++) {
     aliens[i] += direction;
-    if (aliens.length -1 == rightEdge){
-        console.log("i hit the right edge")
-    }
-
   }
+//   for(let i = 0; i< aliens.length -i; i++){
+//     if (aliens[i] == rightEdge){
+//         console.log("i hit the right edge")
+//     }
+//   }
   addAlienClass();
 };
 
-// calling this function every 500milliseconds
+// // calling this function every 500milliseconds
 // setInterval(moveAliens, 500)
+
+
+//decide game-over
+for (let i = 0; i < aliens.length; i++) {
+if (aliens[i] === 100)
+    console.log("hello")
+    clearInterval(moveAliens);
+} 
+
 
 // logic
 // listens to anytime a ket is pressed and runs the function

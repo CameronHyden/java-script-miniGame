@@ -1,6 +1,7 @@
 .alienInvader {
   border-radius: 40%;
   background-color: darkslateblue;
+  background-image: url(/alien.jpg);
 }
 
 .shooter {
