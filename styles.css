@@ -1,0 +1,26 @@
+.alienInvader {
+  border-radius: 40%;
+  background-color: darkslateblue;
+}
+
+.shooter {
+  border-radius: 40%;
+  background-color: black;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  border: solid 1px #ee5959;
+  width: 300px;
+  height: 300px;
+}
+.grid div {
+  width: 20px;
+  height: 20px;
+}
