@@ -78,11 +78,12 @@ const MoveAliensEdgeToEdge = () => {
 
 // setInterval(MoveAliensEdgeToEdge, 500);
 
-//decide game-over - NOT WORKING YET
-// for (let i = 0; i < aliens.length; i++) {
-//   if (aliens[i] === 100) console.log("hello");
-//   clearInterval(moveAliens);
-// }
+// decide game-over - NOT WORKING YET
+for (let i = 0; i < aliens.length; i++) {
+  const endRow = []
+  if (aliens[i] === endRow);
+  console.log("heyy");
+}
 
 // logic
 // listens to anytime a key is pressed and runs the function
