@@ -5,16 +5,12 @@ const divSquares = document.querySelectorAll(".grid div");
 const scoreBoard = document.querySelector("#result");
 
 // global variables
-//I need to define length of the board, my shooter, the aliens and result
 
 const width = 15;
 let shooterPositionIndex = 217;
 let result = 0;
 let direction = 1;
 
-const rightEdge = [
-  14, 29, 44, 59, 74, 89, 104, 119, 134, 149, 164, 179, 194, 209, 224,
-];
 
 //set starting position of the aliens
 const aliens = [
@@ -29,7 +25,6 @@ const addAlienClass = () => {
   }
 };
 addAlienClass();
-
 const removeAlienClass = () => {
   for (let i = 0; i < aliens.length; i++) {
     divSquares[aliens[i]].classList.remove("alienInvader");
@@ -53,34 +48,42 @@ const moveShooter = (event) => {
   divSquares[shooterPositionIndex].classList.add("shooter");
 };
 
-// moving the aliens
-// todo --- get the aliens moving side to side
-const moveAliens = () => {
-  removeAlienClass();
-
+const MoveAliensEdgeToEdge = () => {
+  const rightEdge = aliens[aliens.length - 1] % width === 14;
+  const leftEdge = aliens[0] % width === 0;
+  //checking if hit the edge, if so add the width(15) so they drop down,
+  // then depending on what side, change the direction
+  if ((rightEdge && direction === 1) || (leftEdge && direction === -1)) {
+    direction = width;
+  } else {
+    if (direction === width && rightEdge === true) {
+      direction = -1;
+    } else {
+      if (direction === width && leftEdge === true) {
+        direction = 1;
+      }
+    }
+  }
+  //loop to remove class then add the direction and then add the class to new location
+  for (let i = 0; i < aliens.length; i++) {
+    removeAlienClass();
+  }
   for (let i = 0; i < aliens.length; i++) {
     aliens[i] += direction;
   }
-//   for(let i = 0; i< aliens.length -i; i++){
-//     if (aliens[i] == rightEdge){
-//         console.log("i hit the right edge")
-//     }
-//   }
-  addAlienClass();
+  for (let i = 0; i < aliens.length; i++) {
+    addAlienClass();
+  }
 };
 
-// // calling this function every 500milliseconds
-// setInterval(moveAliens, 500)
+// setInterval(MoveAliensEdgeToEdge, 500);
 
-
-//decide game-over
-for (let i = 0; i < aliens.length; i++) {
-if (aliens[i] === 100)
-    console.log("hello")
-    clearInterval(moveAliens);
-} 
-
+//decide game-over - NOT WORKING YET
+// for (let i = 0; i < aliens.length; i++) {
+//   if (aliens[i] === 100) console.log("hello");
+//   clearInterval(moveAliens);
+// }
 
 // logic
-// listens to anytime a ket is pressed and runs the function
+// listens to anytime a key is pressed and runs the function
 document.addEventListener("keydown", moveShooter);
