@@ -8,6 +8,11 @@
   content: url("./ship.jpg");
 }
 
+.bullet {
+  border-radius: 40%;
+  background-color: gold;
+}
+
 * {
   margin: 0;
   padding: 0;

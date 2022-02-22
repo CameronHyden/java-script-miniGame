@@ -10,7 +10,7 @@ const width = 15;
 let shooterPositionIndex = 217;
 let result = 0;
 let direction = 1;
-
+let bulletIndex = 0;
 
 //set starting position of the aliens
 const aliens = [
@@ -35,8 +35,6 @@ const removeAlienClass = () => {
 divSquares[shooterPositionIndex].classList.add("shooter");
 
 //moving the shooter
-// need to change index position when right or left arrow key is pressed
-//need to remove then re add shooter class to new index position
 const moveShooter = (event) => {
   divSquares[shooterPositionIndex].classList.remove("shooter");
   if (event.keyCode == "37" && shooterPositionIndex > 210) {
@@ -76,15 +74,33 @@ const MoveAliensEdgeToEdge = () => {
   }
 };
 
-// setInterval(MoveAliensEdgeToEdge, 500);
+// setInterval(MoveAliensEdgeToEdge, 300);
+
+// to shoot
+
+const shootBullet = (event) => {
+  bulletIndex = shooterPositionIndex;
+    divSquares[bulletIndex].classList.add("bullet");
+    if (event.keyCode == "38") {
+      bulletIndex += width;
+    }
+    divSquares[bulletIndex].classList.remove("bullet");
+};
+
+// for (let i = 0; i < divSquares.length; i++) {
+//   if (divSquares[i].matches(".alienInvader.shooter")){
+//     console.log("hello");
+//   }
+// }
 
 // decide game-over - NOT WORKING YET
-for (let i = 0; i < aliens.length; i++) {
-  const endRow = []
-  if (aliens[i] === endRow);
-  console.log("heyy");
-}
+// for (let i = 0; i < aliens.length; i++) {
+//   const endRow = [];
+//   if (aliens[i] === endRow);
+//   console.log("heyy");
+// }
 
 // logic
 // listens to anytime a key is pressed and runs the function
 document.addEventListener("keydown", moveShooter);
+document.addEventListener("keydown", shootBullet);
