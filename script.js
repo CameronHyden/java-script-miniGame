@@ -4,107 +4,98 @@
 const divSquares = document.querySelectorAll(".grid div");
 const scoreBoard = document.querySelector("#result");
 
-const spaceInvaders = {
+const game = {
   shooterPositionIndex: 217,
   result: 0,
-  bullet: 218,
+  bullet: 0,
   bulletFired: false,
+  aliens: [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30, 31,
+    32, 33, 34, 35, 36, 37, 38, 39,
+  ],
+  endRow: [60,61,62],
+  direction:1,
+  width:15,
 };
 
-// global variables
 
-const width = 15;
-// let shooterPositionIndex = 217;
-let result = 0;
-let direction = 1;
-
-//set starting position of the aliens
-const aliens = [
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30, 31,
-  32, 33, 34, 35, 36, 37, 38, 39,
-];
 
 //functions to remove and add the alien styles
 const addAlienClass = () => {
-  for (let i = 0; i < aliens.length; i++) {
-    divSquares[aliens[i]].classList.add("alienInvader");
+  for (let i = 0; i < game.aliens.length; i++) {
+    divSquares[game.aliens[i]].classList.add("alienInvader");
   }
 };
 addAlienClass();
 const removeAlienClass = () => {
-  for (let i = 0; i < aliens.length; i++) {
-    divSquares[aliens[i]].classList.remove("alienInvader");
+  for (let i = 0; i < game.aliens.length; i++) {
+    divSquares[game.aliens[i]].classList.remove("alienInvader");
   }
 };
 
 // add class to shooter
-divSquares[spaceInvaders.shooterPositionIndex].classList.add("shooter");
+divSquares[game.shooterPositionIndex].classList.add("shooter");
 
 //moving the shooter
 const moveShooter = (event) => {
-  divSquares[spaceInvaders.shooterPositionIndex].classList.remove("shooter");
-  if (event.keyCode == "37" && spaceInvaders.shooterPositionIndex > 210) {
-    spaceInvaders.shooterPositionIndex -= 1;
+  divSquares[game.shooterPositionIndex].classList.remove("shooter");
+  if (event.keyCode == "37" && game.shooterPositionIndex > 210) {
+    game.shooterPositionIndex -= 1;
   } else {
-    if (event.keyCode == "39" && spaceInvaders.shooterPositionIndex < 224)
-      spaceInvaders.shooterPositionIndex += 1;
+    if (event.keyCode == "39" && game.shooterPositionIndex < 224)
+      game.shooterPositionIndex += 1;
   }
-  divSquares[spaceInvaders.shooterPositionIndex].classList.add("shooter");
+  divSquares[game.shooterPositionIndex].classList.add("shooter");
 };
 
 const MoveAliensEdgeToEdge = () => {
-  const rightEdge = aliens[aliens.length - 1] % width === 14;
-  const leftEdge = aliens[0] % width === 0;
+  const rightEdge = game.aliens[game.aliens.length - 1] % game.width === 14;
+  const leftEdge = game.aliens[0] % game.width === 0;
   //checking if hit the edge, if so add the width(15) so they drop down,
   // then depending on what side, change the direction
-  if ((rightEdge && direction === 1) || (leftEdge && direction === -1)) {
-    direction = width;
+  if ((rightEdge && game.direction === 1) || (leftEdge && game.direction === -1)) {
+    game.direction = game.width;
   } else {
-    if (direction === width && rightEdge === true) {
-      direction = -1;
+    if (game.direction === game.width && rightEdge === true) {
+      game.direction = -1;
     } else {
-      if (direction === width && leftEdge === true) {
-        direction = 1;
+      if (game.direction === game.width && leftEdge === true) {
+        game.direction = 1;
       }
     }
   }
   //loop to remove class then add the direction and then add the class to new location
-  for (let i = 0; i < aliens.length; i++) {
+  for (let i = 0; i < game.aliens.length; i++) {
     removeAlienClass();
   }
-  for (let i = 0; i < aliens.length; i++) {
-    aliens[i] += direction;
+  for (let i = 0; i < game.aliens.length; i++) {
+    game.aliens[i] += game.direction;
   }
-  for (let i = 0; i < aliens.length; i++) {
+  for (let i = 0; i < game.aliens.length; i++) {
     addAlienClass();
   }
 };
 
-// setInterval(MoveAliensEdgeToEdge, 300);
+const timer = setInterval(MoveAliensEdgeToEdge, 300);
 
 // to shoot needs to add bullet class above wherever the shooter is
 // needs to loop and minus width so it keeps going up the board
 
 const shootBullet = (event) => {
   if (event.keyCode == "38") {
-    spaceInvaders.bullet = spaceInvaders.shooterPositionIndex;
+    game.bullet = game.shooterPositionIndex;
 
     const moveBullet = () => {
-      divSquares[spaceInvaders.bullet].classList.remove("bullet");
+      divSquares[game.bullet].classList.remove("bullet");
 
-      spaceInvaders.bullet -= width;
+      game.bullet -= game.width;
 
-      divSquares[spaceInvaders.bullet].classList.add("bullet");
+      divSquares[game.bullet].classList.add("bullet");
     };
     setInterval(moveBullet, 400);
   }
 };
 
-// const timedBullet = (event) => {
-//   if (event.keyCode == "38") {
-//   setInterval(shootBullet, 400)
-// }
-// }
 
 // for (let i = 0; i < divSquares.length; i++) {
 //   if (divSquares[i].matches(".alienInvader.shooter")){
@@ -112,13 +103,17 @@ const shootBullet = (event) => {
 //   }
 // }
 
+
+
 // decide game-over - NOT WORKING YET
-// for (let i = 0; i < aliens.length; i++) {
-//   const endRow = [];
-//   if (aliens[i] === endRow);
+// for (let i = 0; i < game.aliens.length; i++) {
+//   if (game.aliens);
 //   console.log("heyy");
 // }
 
+if(game.aliens < divSquares[50]){
+  clearInterval(timer)
+}
 // logic
 // listens to anytime a key is pressed and runs the function
 document.addEventListener("keydown", moveShooter);
