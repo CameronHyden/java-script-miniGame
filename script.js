@@ -4,13 +4,19 @@
 const divSquares = document.querySelectorAll(".grid div");
 const scoreBoard = document.querySelector("#result");
 
+const spaceInvaders = {
+  shooterPositionIndex: 217,
+  result: 0,
+  bullet: 218,
+  bulletFired: false,
+};
+
 // global variables
 
 const width = 15;
-let shooterPositionIndex = 217;
+// let shooterPositionIndex = 217;
 let result = 0;
 let direction = 1;
-let bulletIndex = 0;
 
 //set starting position of the aliens
 const aliens = [
@@ -32,18 +38,18 @@ const removeAlienClass = () => {
 };
 
 // add class to shooter
-divSquares[shooterPositionIndex].classList.add("shooter");
+divSquares[spaceInvaders.shooterPositionIndex].classList.add("shooter");
 
 //moving the shooter
 const moveShooter = (event) => {
-  divSquares[shooterPositionIndex].classList.remove("shooter");
-  if (event.keyCode == "37" && shooterPositionIndex > 210) {
-    shooterPositionIndex -= 1;
+  divSquares[spaceInvaders.shooterPositionIndex].classList.remove("shooter");
+  if (event.keyCode == "37" && spaceInvaders.shooterPositionIndex > 210) {
+    spaceInvaders.shooterPositionIndex -= 1;
   } else {
-    if (event.keyCode == "39" && shooterPositionIndex < 224)
-      shooterPositionIndex += 1;
+    if (event.keyCode == "39" && spaceInvaders.shooterPositionIndex < 224)
+      spaceInvaders.shooterPositionIndex += 1;
   }
-  divSquares[shooterPositionIndex].classList.add("shooter");
+  divSquares[spaceInvaders.shooterPositionIndex].classList.add("shooter");
 };
 
 const MoveAliensEdgeToEdge = () => {
@@ -76,16 +82,29 @@ const MoveAliensEdgeToEdge = () => {
 
 // setInterval(MoveAliensEdgeToEdge, 300);
 
-// to shoot
+// to shoot needs to add bullet class above wherever the shooter is
+// needs to loop and minus width so it keeps going up the board
 
 const shootBullet = (event) => {
-  bulletIndex = shooterPositionIndex;
-    divSquares[bulletIndex].classList.add("bullet");
-    if (event.keyCode == "38") {
-      bulletIndex += width;
-    }
-    divSquares[bulletIndex].classList.remove("bullet");
+  if (event.keyCode == "38") {
+    spaceInvaders.bullet = spaceInvaders.shooterPositionIndex;
+
+    const moveBullet = () => {
+      divSquares[spaceInvaders.bullet].classList.remove("bullet");
+
+      spaceInvaders.bullet -= width;
+
+      divSquares[spaceInvaders.bullet].classList.add("bullet");
+    };
+    setInterval(moveBullet, 400);
+  }
 };
+
+// const timedBullet = (event) => {
+//   if (event.keyCode == "38") {
+//   setInterval(shootBullet, 400)
+// }
+// }
 
 // for (let i = 0; i < divSquares.length; i++) {
 //   if (divSquares[i].matches(".alienInvader.shooter")){
