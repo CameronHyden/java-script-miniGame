@@ -8,15 +8,16 @@ const game = {
   shooterPositionIndex: 217,
   result: 0,
   bullet: null,
+  firedBullets: [],
   bulletFired: false,
   aliens: [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30,
     31, 32, 33, 34, 35, 36, 37, 38, 39,
   ],
+  bullets: [],
   direction: 1,
   width: 15,
 };
-
 
 //functions to remove and add the alien styles
 const addAlienClass = () => {
@@ -96,25 +97,30 @@ const startAndEndGame = (event) => {
 };
 
 const shootBullet = (event) => {
-  game.bullet = game.shooterPositionIndex;
   if (event.keyCode == "38") {
-    moveBullet()
+    game.bullet = game.shooterPositionIndex;
+    game.firedBullets.push(game.bullet);
   }
 };
 
-const moveBullet = () => {
-  
-  divSquares[game.bullet].classList.remove("bullet");
-  game.bullet -= game.width;
-  divSquares[game.bullet].classList.add("bullet"); 
+const moveBulletArray = () => {
+  for (let i = 0; i < game.firedBullets.length; i++) {
+    divSquares[game.firedBullets[i]].classList.remove("bullet");
+  }
+  for (let i = 0; i < game.firedBullets.length; i++) {
+    game.firedBullets[i] -= game.width;
+  }
+
+  for (let i = 0; i < game.firedBullets.length; i++) {
+    divSquares[game.firedBullets[i]].classList.add("bullet");
+  }
 };
+setInterval(moveBulletArray, 400)
 
 const checkIfHit = () => {
   for (let i = 0; i < game.aliens.length; i++) {
-    if (game.aliens[i] === game.bullet) {
-      divSquares[game.bullet].classList.remove("bullet");
-      
-     
+    if (game.aliens[i] === game.firedBullets) {
+      divSquares[game.firedBullets].classList.remove("bullet");
     }
   }
 };
@@ -125,3 +131,16 @@ setInterval(checkIfHit, 100);
 document.addEventListener("keydown", startAndEndGame);
 document.addEventListener("keydown", moveShooter);
 document.addEventListener("keydown", shootBullet);
+
+// const moveBullet = () => {
+
+//   divSquares[game.bullet].classList.remove("bullet");
+
+//   game.bullet -= game.width;
+
+//     divSquares[game.bullet].classList.add("bullet");
+
+// };
+// moveBullet()
+
+// }
