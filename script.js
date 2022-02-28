@@ -7,17 +7,16 @@ const scoreBoard = document.querySelector("#result");
 const game = {
   shooterPositionIndex: 217,
   result: 0,
-  bullet: 0,
+  bullet: null,
   bulletFired: false,
   aliens: [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30,
     31, 32, 33, 34, 35, 36, 37, 38, 39,
   ],
-  movedAliens: [ ],
-  endRow: [60, 61, 62],
   direction: 1,
   width: 15,
 };
+
 
 //functions to remove and add the alien styles
 const addAlienClass = () => {
@@ -72,65 +71,57 @@ const ifAliensHitTheEdge = () => {
 const moveAliens = () => {
   for (let i = 0; i < game.aliens.length; i++) {
     removeAlienClass();
-   
   }
   for (let i = 0; i < game.aliens.length; i++) {
     game.aliens[i] += game.direction;
-    console.log(game.aliens[i])
   }
   for (let i = 0; i < game.aliens.length; i++) {
     addAlienClass();
-   
-    
   }
 };
 
-const loggingMovedAliens = () =>{
-  for (let i = 0; i < game.aliens.length; i++) {
-  game.movedAliens = game.aliens[i]
- 
+const startAndEndGame = (event) => {
+  if (event.keyCode == "32") {
+    const timer = setInterval(() => {
+      ifAliensHitTheEdge();
+      aliensPosition();
+    }, 300);
+    const aliensPosition = () => {
+      if (game.aliens[game.aliens.length - 1] >= 210) {
+        clearInterval(timer);
+        alert("GAME OVER");
+      }
+    };
   }
-}
-loggingMovedAliens()
-
-const startGame = (event) =>{
-  if(event.keyCode == "32"){
-    const timer = setInterval(ifAliensHitTheEdge, 300);
-  }
-}
-
-
-
-// to shoot needs to add bullet class above wherever the shooter is
-// needs to loop and minus width so it keeps going up the board
+};
 
 const shootBullet = (event) => {
+  game.bullet = game.shooterPositionIndex;
   if (event.keyCode == "38") {
-    game.bullet = game.shooterPositionIndex;
-
-    const moveBullet = () => {
-      divSquares[game.bullet].classList.remove("bullet");
-
-      game.bullet -= game.width;
-      // console.log(game.bullet)
-
-      divSquares[game.bullet].classList.add("bullet");
-    };
-    setInterval(moveBullet, 400);
+    moveBullet()
   }
 };
 
+const moveBullet = () => {
+  
+  divSquares[game.bullet].classList.remove("bullet");
+  game.bullet -= game.width;
+  divSquares[game.bullet].classList.add("bullet"); 
+};
 
-// when a bullet hits the alien
-
-// decide game-over - NOT WORKING YET
-// for (let i = 0; i < game.aliens.length; i++) {
-//   if (game.aliens);
-//   console.log("heyy");
-// }
+const checkIfHit = () => {
+  for (let i = 0; i < game.aliens.length; i++) {
+    if (game.aliens[i] === game.bullet) {
+      divSquares[game.bullet].classList.remove("bullet");
+      
+     
+    }
+  }
+};
+setInterval(checkIfHit, 100);
 
 // logic
 // listens to anytime a key is pressed and runs the function
-document.addEventListener("keydown", startGame)
+document.addEventListener("keydown", startAndEndGame);
 document.addEventListener("keydown", moveShooter);
 document.addEventListener("keydown", shootBullet);

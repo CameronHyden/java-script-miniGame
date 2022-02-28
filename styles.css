@@ -24,8 +24,13 @@
   border: solid 1px #ee5959;
   width: 300px;
   height: 300px;
+  left: 200px;
 }
 .grid div {
   width: 20px;
   height: 20px;
+}
+
+h2 {
+  font-size: 1rem;
 }
