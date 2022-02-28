@@ -10,7 +10,7 @@
 
 .bullet {
   border-radius: 40%;
-  background-color: gold;
+  content: url("./bullet.jpg");
 }
 
 * {

@@ -1,10 +1,14 @@
 .alienInvader {
   border-radius: 40%;
-  background-color: darkslateblue;
-  background-image: url(/alien.jpg);
+  content: url("./alien.jpg");
 }
 
 .shooter {
   border-radius: 40%;
-  background-color: black;
+  content: url("./ship.jpg");
+}
+
+.bullet {
+  border-radius: 40%;
+  content: url("./bullet.jpg");
 }

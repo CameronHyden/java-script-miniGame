@@ -86,6 +86,7 @@ const startAndEndGame = (event) => {
     const timer = setInterval(() => {
       ifAliensHitTheEdge();
       aliensPosition();
+      checkIfHit();
     }, 300);
     const aliensPosition = () => {
       if (game.aliens[game.aliens.length - 1] >= 210) {
@@ -118,13 +119,14 @@ const moveBulletArray = () => {
 setInterval(moveBulletArray, 400)
 
 const checkIfHit = () => {
-  for (let i = 0; i < game.aliens.length; i++) {
-    if (game.aliens[i] === game.firedBullets) {
-      divSquares[game.firedBullets].classList.remove("bullet");
+  for (let i = 0; i < game.aliens.length; i++){
+    if (game.aliens[i] == game.firedBullets) {
+      console.log("hello")
+      divSquares[game.aliens[i]].classList.remove("alienInvader");
     }
   }
 };
-setInterval(checkIfHit, 100);
+
 
 // logic
 // listens to anytime a key is pressed and runs the function
@@ -132,15 +134,3 @@ document.addEventListener("keydown", startAndEndGame);
 document.addEventListener("keydown", moveShooter);
 document.addEventListener("keydown", shootBullet);
 
-// const moveBullet = () => {
-
-//   divSquares[game.bullet].classList.remove("bullet");
-
-//   game.bullet -= game.width;
-
-//     divSquares[game.bullet].classList.add("bullet");
-
-// };
-// moveBullet()
-
-// }
