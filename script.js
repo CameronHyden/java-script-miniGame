@@ -3,6 +3,7 @@
 
 const divSquares = document.querySelectorAll(".grid div");
 const scoreBoard = document.querySelector("#result");
+const resetButton = document.querySelector("#restart-button")
 
 const game = {
   shooterPositionIndex: 217,
@@ -70,16 +71,12 @@ const ifAliensHitTheEdge = () => {
 };
 //loop to remove class then add the direction and then add the class to new location
 const moveAliens = () => {
-  for (let i = 0; i < game.aliens.length; i++) {
-    removeAlienClass();
-  }
-  for (let i = 0; i < game.aliens.length; i++) {
-    game.aliens[i] += game.direction;
-  }
-  for (let i = 0; i < game.aliens.length; i++) {
-    addAlienClass();
-  }
-};
+	for(let i = 0; i < game.aliens.length; i++) {
+		removeAlienClass();
+		game.aliens[i] += game.direction;
+		addAlienClass();
+	}
+}
 
 const startAndEndGame = (event) => {
   if (event.keyCode == "32") {
@@ -106,12 +103,7 @@ const shootBullet = (event) => {
 const moveBulletArray = () => {
   for (let i = 0; i < game.firedBullets.length; i++) {
     divSquares[game.firedBullets[i]].classList.remove("bullet");
-  }
-  for (let i = 0; i < game.firedBullets.length; i++) {
     game.firedBullets[i] -= game.width;
-  }
-
-  for (let i = 0; i < game.firedBullets.length; i++) {
     divSquares[game.firedBullets[i]].classList.add("bullet");
   }
 };
@@ -135,9 +127,22 @@ const checkIfHit = () => {
 
 setInterval(checkIfHit, 20)
 
+const restartTheGame = (event) => {
+
+  game.shooterPositionIndex = 217;
+  game.aliens = [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30,
+    31, 32, 33, 34, 35, 36, 37, 38, 39,];
+  game.result = 0;
+  game.bullet = null;
+  game.firedBullets = [];
+  clearInterval(timer)
+}
+
 
 // logic
 // listens to anytime a key is pressed and runs the function
 document.addEventListener("keydown", startAndEndGame);
 document.addEventListener("keydown", moveShooter);
 document.addEventListener("keydown", shootBullet);
+resetButton.addEventListener("click", restartTheGame);

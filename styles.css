@@ -1,21 +1,26 @@
 .alienInvader {
   border-radius: 40%;
-  content: url("./alien.jpg");
+  content: url("./assets/images/alien.jpg");
 }
 
 .shooter {
   border-radius: 40%;
-  content: url("./ship.jpg");
+  content: url("./assets/images/ship.jpg");
 }
 
 .bullet {
   border-radius: 40%;
-  content: url("./bullet.jpg");
+  content: url("./assets/images/bullet.jpg");
 }
 
 * {
   margin: 0;
   padding: 0;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1rem;
 }
 
 .grid {
@@ -24,13 +29,26 @@
   border: solid 1px #ee5959;
   width: 300px;
   height: 300px;
-  left: 200px;
 }
 .grid div {
   width: 20px;
   height: 20px;
 }
 
-h2 {
-  font-size: 1rem;
+#grid__container {
+  display: flex;
+  justify-content: center;
+}
+
+#game__info {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  margin: 5px;
+}
+#game__info button {
+  width: 190px;
+  margin: 5px;
 }
