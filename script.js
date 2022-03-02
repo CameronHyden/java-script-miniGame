@@ -1,3 +1,5 @@
+
+
 // need to get access to div's in my grid
 // and the score  board
 
@@ -11,16 +13,17 @@ const game = {
   result: 0,
   bullet: null,
   firedBullets: [],
-  bulletFired: false,
   aliens: [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30,
     31, 32, 33, 34, 35, 36, 37, 38, 39,
   ],
   direction: 1,
   width: 15,
+
 };
 
-//functions to remove and add the alien styles
+let timer;
+//functions to remove and add the styles
 const addAlienClass = () => {
   for (let i = 0; i < game.aliens.length; i++) {
     divSquares[game.aliens[i]].classList.add("alienInvader");
@@ -33,19 +36,36 @@ const removeAlienClass = () => {
   }
 };
 
-// add class to shooter
-divSquares[game.shooterPositionIndex].classList.add("shooter");
+addShooterClass = () =>{
+  divSquares[game.shooterPositionIndex].classList.add("shooter");
+}
+addShooterClass()
+
+removeShooterClass = () => {
+  divSquares[game.shooterPositionIndex].classList.remove("shooter");
+} 
+
+addBulletClass = () =>{
+  for (let i = 0; i < game.firedBullets.length; i++) {
+    divSquares[game.firedBullets[i]].classList.add("bullet");
+  }
+}
+removeBulletClass = () =>{
+  for (let i = 0; i < game.firedBullets.length; i++) {
+    divSquares[game.firedBullets[i]].classList.remove("bullet");
+  }
+}
 
 //moving the shooter
 const moveShooter = (event) => {
-  divSquares[game.shooterPositionIndex].classList.remove("shooter");
+  removeShooterClass()
   if (event.keyCode == "37" && game.shooterPositionIndex > 210) {
     game.shooterPositionIndex -= 1;
   } else {
     if (event.keyCode == "39" && game.shooterPositionIndex < 224)
       game.shooterPositionIndex += 1;
   }
-  divSquares[game.shooterPositionIndex].classList.add("shooter");
+  addShooterClass();
 };
 
 const ifAliensHitTheEdge = () => {
@@ -79,20 +99,22 @@ const moveAliens = () => {
 };
 
 const startAndEndGame = (event) => {
-  const timer = setInterval(() => {
+  startGameButton.disabled = true
+  timer = setInterval(() => {
     ifAliensHitTheEdge();
-    aliensPosition();
+    ifAliensReachEnd();
   }, 300);
-  const aliensPosition = () => {
-    if (game.aliens[game.aliens.length - 1] >= 210) {
-      clearInterval(timer);
-      alert("GAME OVER");
-    }
-  };
+};
+
+const ifAliensReachEnd = () => {
+  if (game.aliens[game.aliens.length - 1] >= 210) {
+    clearInterval(timer);
+    alert("GAME OVER");
+  }
 };
 
 const shootBullet = (event) => {
-  if (event.keyCode == "32") {
+  if (event.keyCode == "38") {
     game.bullet = game.shooterPositionIndex;
     game.firedBullets.push(game.bullet);
   }
@@ -100,9 +122,9 @@ const shootBullet = (event) => {
 
 const moveBulletArray = () => {
   for (let i = 0; i < game.firedBullets.length; i++) {
-    divSquares[game.firedBullets[i]].classList.remove("bullet");
+    removeBulletClass()
     game.firedBullets[i] -= game.width;
-    divSquares[game.firedBullets[i]].classList.add("bullet");
+    addBulletClass()
   }
 };
 setInterval(moveBulletArray, 400);
@@ -126,24 +148,33 @@ const checkIfHit = () => {
 setInterval(checkIfHit, 20);
 
 const checkIfBulletLeftBoard = () => {
-  for (let i = 0; i < game.firedBullets.length; i++){
-    if (game.firedBullets[i] < 15){
+  for (let i = 0; i < game.firedBullets.length; i++) {
+    if (game.firedBullets[i] < 15) {
       divSquares[game.firedBullets[i]].classList.remove("bullet");
-        game.firedBullets.splice(i, 1);
+      game.firedBullets.splice(i, 1);
     }
   }
-}
-setInterval(checkIfBulletLeftBoard,40);
+};
+setInterval(checkIfBulletLeftBoard, 40);
 
-const restartTheGame = (event) => {
-  game.shooterPositionIndex = 217;
+const restartTheGame = (event) =>{
+  removeAlienClass()
+  removeShooterClass()
+  removeBulletClass()
+  clearInterval(timer);
   game.aliens = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30,
     31, 32, 33, 34, 35, 36, 37, 38, 39,
-  ];
-  game.result = 0;
-  game.bullet = null;
-  game.firedBullets = [];
+  ]
+  game.shooterPositionIndex = 217,
+  game.result = 0,
+  scoreBoard.innerHTML = game.result
+  game.bullet = null
+  game.firedBullets = []
+  startGameButton.disabled = false
+  addAlienClass()
+  addShooterClass()
+  
 };
 
 // logic
