@@ -3,7 +3,8 @@
 
 const divSquares = document.querySelectorAll(".grid div");
 const scoreBoard = document.querySelector("#result");
-const resetButton = document.querySelector("#restart-button")
+const resetButton = document.querySelector("#restart-button");
+const startGameButton = document.querySelector("#start-button");
 
 const game = {
   shooterPositionIndex: 217,
@@ -15,7 +16,6 @@ const game = {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30,
     31, 32, 33, 34, 35, 36, 37, 38, 39,
   ],
-  bullets: [],
   direction: 1,
   width: 15,
 };
@@ -71,30 +71,28 @@ const ifAliensHitTheEdge = () => {
 };
 //loop to remove class then add the direction and then add the class to new location
 const moveAliens = () => {
-	for(let i = 0; i < game.aliens.length; i++) {
-		removeAlienClass();
-		game.aliens[i] += game.direction;
-		addAlienClass();
-	}
-}
-
-const startAndEndGame = (event) => {
-  if (event.keyCode == "32") {
-    const timer = setInterval(() => {
-      ifAliensHitTheEdge();
-      aliensPosition();
-    }, 300);
-    const aliensPosition = () => {
-      if (game.aliens[game.aliens.length - 1] >= 210) {
-        clearInterval(timer);
-        alert("GAME OVER");
-      }
-    };
+  for (let i = 0; i < game.aliens.length; i++) {
+    removeAlienClass();
+    game.aliens[i] += game.direction;
+    addAlienClass();
   }
 };
 
+const startAndEndGame = (event) => {
+  const timer = setInterval(() => {
+    ifAliensHitTheEdge();
+    aliensPosition();
+  }, 300);
+  const aliensPosition = () => {
+    if (game.aliens[game.aliens.length - 1] >= 210) {
+      clearInterval(timer);
+      alert("GAME OVER");
+    }
+  };
+};
+
 const shootBullet = (event) => {
-  if (event.keyCode == "38") {
+  if (event.keyCode == "32") {
     game.bullet = game.shooterPositionIndex;
     game.firedBullets.push(game.bullet);
   }
@@ -113,36 +111,44 @@ const checkIfHit = () => {
   for (let i = 0; i < game.aliens.length; i++) {
     for (let j = 0; j < game.firedBullets.length; j++) {
       if (game.aliens[i] === game.firedBullets[j]) {
-        
+        divSquares[game.aliens[i]].classList.remove("alienInvader");
         game.aliens.splice(i, 1);
+
+        divSquares[game.firedBullets[j]].classList.remove("bullet");
         game.firedBullets.splice(j, 1);
-        game.result += 1
+
+        game.result += 1;
         scoreBoard.innerHTML = game.result;
-       
-       
       }
     }
   }
 };
+setInterval(checkIfHit, 20);
 
-setInterval(checkIfHit, 20)
+const checkIfBulletLeftBoard = () => {
+  for (let i = 0; i < game.firedBullets.length; i++){
+    if (game.firedBullets[i] < 15){
+      divSquares[game.firedBullets[i]].classList.remove("bullet");
+        game.firedBullets.splice(i, 1);
+    }
+  }
+}
+setInterval(checkIfBulletLeftBoard,40);
 
 const restartTheGame = (event) => {
-
   game.shooterPositionIndex = 217;
   game.aliens = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 30,
-    31, 32, 33, 34, 35, 36, 37, 38, 39,];
+    31, 32, 33, 34, 35, 36, 37, 38, 39,
+  ];
   game.result = 0;
   game.bullet = null;
   game.firedBullets = [];
-  clearInterval(timer)
-}
-
+};
 
 // logic
 // listens to anytime a key is pressed and runs the function
-document.addEventListener("keydown", startAndEndGame);
 document.addEventListener("keydown", moveShooter);
 document.addEventListener("keydown", shootBullet);
 resetButton.addEventListener("click", restartTheGame);
+startGameButton.addEventListener("click", startAndEndGame);
