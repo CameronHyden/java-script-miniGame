@@ -22,17 +22,63 @@ h2 {
   text-align: center;
   font-size: 1rem;
 }
+@media screen and (min-width: 700px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+@media screen and (min-width: 1100px) {
+  h2 {
+    font-size: 2rem;
+  }
+}
 
 .grid {
   display: flex;
   flex-wrap: wrap;
-  border: solid 1px #ee5959;
-  width: 300px;
-  height: 300px;
+  border: solid 1px #030303;
+  width: 210px;
+  height: 210px;
+}
+@media screen and (min-width: 325px) {
+  .grid {
+    width: 300px;
+    height: 300px;
+  }
+}
+@media screen and (min-width: 700px) {
+  .grid {
+    width: 600px;
+    height: 600px;
+  }
+}
+@media screen and (min-width: 1100px) {
+  .grid {
+    width: 750px;
+    height: 750px;
+  }
 }
 .grid div {
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
+}
+@media screen and (min-width: 325px) {
+  .grid div {
+    width: 20px;
+    height: 20px;
+  }
+}
+@media screen and (min-width: 700px) {
+  .grid div {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media screen and (min-width: 1100px) {
+  .grid div {
+    width: 50px;
+    height: 50px;
+  }
 }
 
 #grid__container {
@@ -51,4 +97,15 @@ h2 {
 #game__info button {
   width: 190px;
   margin: 5px;
+}
+
+@media screen and (min-width: 700px) {
+  #shooting-button {
+    display: none;
+  }
+}
+
+.mobile-buttons {
+  display: grid;
+  grid-template-columns: repeat 2 1fr;
 }

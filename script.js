@@ -7,6 +7,7 @@ const divSquares = document.querySelectorAll(".grid div");
 const scoreBoard = document.querySelector("#result");
 const resetButton = document.querySelector("#restart-button");
 const startGameButton = document.querySelector("#start-button");
+const shootButton = document.querySelector("#shooting-button");
 
 const game = {
   shooterPositionIndex: 217,
@@ -120,6 +121,12 @@ const shootBullet = (event) => {
   }
 };
 
+const shootBulletPhone = () => {
+    game.bullet = game.shooterPositionIndex;
+    game.firedBullets.push(game.bullet);
+  
+};
+
 const moveBulletArray = () => {
   for (let i = 0; i < game.firedBullets.length; i++) {
     removeBulletClass()
@@ -183,3 +190,4 @@ document.addEventListener("keydown", moveShooter);
 document.addEventListener("keydown", shootBullet);
 resetButton.addEventListener("click", restartTheGame);
 startGameButton.addEventListener("click", startAndEndGame);
+shootButton.addEventListener("click", shootBulletPhone);
