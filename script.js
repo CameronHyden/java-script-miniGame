@@ -8,6 +8,8 @@ const scoreBoard = document.querySelector("#result");
 const resetButton = document.querySelector("#restart-button");
 const startGameButton = document.querySelector("#start-button");
 const shootButton = document.querySelector("#shooting-button");
+const leftButton = document.querySelector("#left-button");
+const rightButton = document.querySelector("#right-button");
 
 const game = {
   shooterPositionIndex: 217,
@@ -66,6 +68,16 @@ const moveShooter = (event) => {
     if (event.keyCode == "39" && game.shooterPositionIndex < 224)
       game.shooterPositionIndex += 1;
   }
+  addShooterClass();
+};
+const moveShooterLeftMobile = (event) => {
+  removeShooterClass()
+  game.shooterPositionIndex -= 1;
+  addShooterClass();
+};
+const moveShooterRightMobile = (event) => {
+  removeShooterClass()
+  game.shooterPositionIndex += 1;
   addShooterClass();
 };
 
@@ -191,3 +203,5 @@ document.addEventListener("keydown", shootBullet);
 resetButton.addEventListener("click", restartTheGame);
 startGameButton.addEventListener("click", startAndEndGame);
 shootButton.addEventListener("click", shootBulletPhone);
+leftButton.addEventListener("click", moveShooterLeftMobile);
+rightButton.addEventListener("click", moveShooterRightMobile);
